@@ -1,14 +1,24 @@
 import java.util.Scanner;
 import java.util.ArrayList;
+
+
+/*
+	Black Jack class extending from Abstract CardGame, implements the abstract methods
+	menu() and play()
+*/
 public class BlackJack extends CardGame{
 
+	//private variables for local storage
 	private int balance;
 	private Scanner player;
 
 	private ArrayList<Card> playerHand, computerHand;
 
-	public final int MAX_HAND = 21;
+	//max upper bound limit MAX_HAND and FORCE_DRAW_MIN inclusive
+	public final int MAX_HAND = 21, FORCE_DRAW_MIN = 17;
 
+
+	//basic constructor, initializes variables and loads menu
 	public BlackJack(){
 		super(new Deck());
 		player = new Scanner(System.in);
@@ -18,16 +28,31 @@ public class BlackJack extends CardGame{
 		menu();
 	}
 
+	/*	
+		This code alters the balance, handles case of no money or not enough money
+		@param int inc, positive/negative numbers into balance
+		@return altered balance of avaiable, -1 otherwise 
+	*/
 	public int alterBalance(int inc){
 		if(balance+inc<0){ return -1; }
 		balance+=inc;
 		return balance;
 	}
 
+	/*
+		@param ArrayList<Card>: hand array of specified cards
+		adds card to hand form deck
+	*/
 	public void dealHand(ArrayList<Card> hand){
 		hand.add(getDeck().deal());
 	}
 
+
+	/*
+		@param ArrayList<Card>: hand array of specified cards
+		shows card from array
+		@param boolean hide: whether or not to hide the first card of the hand as ????
+	*/
 	public void showHand(ArrayList<Card> hand, boolean hide){
 		for(Card c : hand){
 			if(hide){
@@ -39,16 +64,28 @@ public class BlackJack extends CardGame{
 		}
 	}
 
+	/*
+		@param ArrayList<Card> hand: hand array of specified cards
+		clear card from array
+	*/
 	public void clearHand(ArrayList<Card> hand){
 		hand.clear();
 	}
 
+	/*
+		@param ArrayList<Card> hand: hand array of specified cards
+		clear card from array
+		@return int: totals up the rank value of the cards in the hand, ace counts as 1 or 11 based on the max
+		upper limit of 21
+	*/
 	public int handValue(ArrayList<Card> hand){
 		int val = 0;
 		boolean hasAce = false;
 		for(Card c : hand){
 			if(c.getRank()==1){ //card is ace
 				hasAce = true;
+			}else if(c.getRank()>=10){
+				val+=10;
 			}else{
 				val+= c.getRank();
 			}
@@ -63,6 +100,11 @@ public class BlackJack extends CardGame{
 		return val;
 	}
 
+	/*		
+		forced inheritance method from cardgame abstrac class,
+		Scanner and console as I/O. Menu options and invalid options handling included.
+		Betting of balance taken here as well.
+	*/
 	@Override
 	public void play(){
 		System.out.println("\n");
@@ -107,6 +149,13 @@ public class BlackJack extends CardGame{
 		}	
 	}
 
+	/*
+	@param int player: player total
+	@param int computer: dealer total
+	@param int bet: amount player is better
+	computes winner and takes in account of the bet. If dealer wins bet is taken from from balance
+	and if player wins bet is added to balance.
+	*/
 	public void computeWinner(int player, int computer, int bet){
 		System.out.println("\n");
 		//verbose hands
@@ -126,6 +175,13 @@ public class BlackJack extends CardGame{
 		System.out.println("\n\n\n");
 	}
 
+
+	/*	
+		Computing the computer/dealers turn.
+		@return -1 or overflow or handValue() of the dealers hand
+		after AI finishes drawing and holding. AI basic probability of
+		forced < 17 value  draw and handVaule() / MAX_VALUE prob of draw otherwise
+	*/
 	public int computerTurn(){ // dumb dumb AI
 		System.out.println("\n");
 		boolean shouldDraw = true;
@@ -149,17 +205,23 @@ public class BlackJack extends CardGame{
 			//should draw logic
 			if(handValue==MAX_HAND){
 				return handValue;
-			}else{ //sort of random draw
+			}else if(handValue > FORCE_DRAW_MIN){
+				 //sort of random draw
 				double prob = (double)(MAX_HAND-handValue)/(double)MAX_HAND;
 				if(Math.random() > prob){
 					shouldDraw = false;
 				}
 			}
-
 		}
 		return handValue;
 	}
 
+
+	/*
+		@return -1 or overflow or handValue() of the dealers hand
+		Scanner Input for options for hitting more cards, player showed dealer hidden status
+		hand and personal hand. 
+	*/
 	public int playerTurn(){ // has to be player
 		System.out.println("\n");
 		System.out.println("Would you like to take a card? y/n");
@@ -178,11 +240,17 @@ public class BlackJack extends CardGame{
 			if(handValue>MAX_HAND){
 				System.out.println("overflow");
 				return -1;
+			}else if(handValue==MAX_HAND){
+				return MAX_HAND;
 			}
 		}
 		return handValue;
 	}
 
+	/*
+		Menu of the game, of of the methods force inherited form abstract class.
+		Invalid inputs handled.
+	*/
 	@Override
 	public void menu(){
 		System.out.println("Welcome to BlackJack! Balance:" + balance);

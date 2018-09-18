@@ -88,10 +88,10 @@ public class BigNumber{
 	}
 
 	public static void main(String[] args){
-		BigNumber bn = new BigNumber("0.0002");
-		BigNumber bn2 = new BigNumber(".000000002");
+		BigNumber bn = new BigNumber("0.000000002");
+		BigNumber bn2 = new BigNumber(".00324230000002");
 		System.out.println(bn);
 		System.out.println(bn2);
-		System.out.println(bn2.divide(bn));
+		System.out.println(bn.divide(bn2));
 	}
 }

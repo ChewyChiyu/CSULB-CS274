@@ -1,8 +1,10 @@
 import java.math.BigInteger;
+import java.math.BigDecimal;
 public class BigNumber{
 
 	private BigInteger bigNum;
 	private int scaleFactor = 0;
+	private final int DIVIDE_SCALE = 20;
 
 	public BigNumber(String num){
 		if(num.indexOf(".")!=num.lastIndexOf(".")){ num = "-1"; }
@@ -58,13 +60,9 @@ public class BigNumber{
 
 	public BigNumber divide(BigNumber bn){
 		if(bn.getNum().toString()=="0"){ return new BigNumber("-1"); }
-		String num = bigNum.divide(bn.getNum()).toString();
-		String scale_const = "";
-
-		for(int index = 0; index < (scaleFactor-bn.getScaleFactor())*-1; index++){
-			scale_const += "0";
-		}
-		return new BigNumber(num+scale_const,((scaleFactor-bn.getScaleFactor()>0)?scaleFactor-bn.getScaleFactor():0));
+		BigDecimal divisor = new BigDecimal(bn.getNum().toString());
+		BigDecimal dividend = BigDecimal.ONE.divide(divisor,DIVIDE_SCALE,BigDecimal.ROUND_HALF_UP);
+		return multiply(new BigNumber(""+dividend.toPlainString()));
 	}
 
 	public BigNumber add(BigNumber bn){
@@ -88,10 +86,8 @@ public class BigNumber{
 	}
 
 	public static void main(String[] args){
-		BigNumber bn = new BigNumber("0.000000002");
-		BigNumber bn2 = new BigNumber(".00324230000002");
-		System.out.println(bn);
-		System.out.println(bn2);
-		System.out.println(bn.divide(bn2));
+		BigNumber bn1 = new BigNumber(".312");
+		BigNumber bn2 = new BigNumber("12");
+		System.out.println(bn1.divide(bn2));
 	}
 }

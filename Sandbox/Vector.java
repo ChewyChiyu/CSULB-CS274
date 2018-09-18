@@ -29,7 +29,6 @@ public class Vector{
 	}
 
 	public Vector multiply(BigNumber bn){
-		balance(v2);
 		String[] s3 = new String[vec.length];
 		for(int index = 0; index < vec.length; index++){
 			s3[index]= vec[index].multiply(bn).toString();
@@ -74,8 +73,8 @@ public class Vector{
 	}
 
 	public static void main(String[] args){
-		Vector v1 = new Vector(new String[]{"10","23","43"});
-		Vector v2 = new Vector(new String[]{".2342",".234234","23422"});
-		System.out.println(v2.add(v1));
+			BigNumber bn1 = new BigNumber("100");
+			System.out.println(bn1.divide(new BigNumber("200")));
+		
 	}
 }

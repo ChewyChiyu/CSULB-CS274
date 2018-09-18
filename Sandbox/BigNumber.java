@@ -1,4 +1,5 @@
 import java.math.BigInteger;
+
 public class BigNumber{ //This class is pretty much my version of BigDecimal
 
 	private BigInteger bigNum;
@@ -67,7 +68,7 @@ public class BigNumber{ //This class is pretty much my version of BigDecimal
 			scale_const+="0";
 		}
 		BigInteger numerator = new BigInteger(scale_const).multiply(DIVS_CONST.getNum());
-		BigNumber numeratorNum = new BigNumber(numerator.divide(bn.getNum()).toString(),scale_const.length()+DIVS_CONST.getNum().toString().length()-2);
+		BigNumber numeratorNum = new BigNumber(numerator.divide(bn.getNum()).toString(),scale_const.length()+DIVS_CONST.getNum().toString().length()-2-bn.getScaleFactor());
 		return multiply(numeratorNum);
 	}
 
@@ -92,8 +93,8 @@ public class BigNumber{ //This class is pretty much my version of BigDecimal
 	}
 
 	public static void main(String[] args){
-		BigNumber bn1 = new BigNumber(".312");
-		BigNumber bn2 = new BigNumber("73");
+		BigNumber bn1 = new BigNumber(".1");
+		BigNumber bn2 = new BigNumber("1.4");
 		System.out.println(bn1.divide(bn2));
 	}
 }

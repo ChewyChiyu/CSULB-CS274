@@ -81,8 +81,7 @@ public class Vector{
 
 	public static void main(String[] args){
 		
-		Vector v1 = new Vector("<12.0,32423,0.23423423,893945.2345,23452345,0>");
-		Vector v2 = new Vector("<34234,5234535,.4523452345,23453245,3452345.4325>");
-		System.out.println(v1.add(v2));
+		Vector v1 = new Vector("<12.0,32423,0.23423423,893945.2345,23452345,0,12.0,32423,0.23423423,893945.2345,23452345,0,12.0,32423,0.23423423,893945.2345,23452345,0>");
+		System.out.println(v1.multiply(new BigNumber(".00000000000000123456")));
 	}
 }

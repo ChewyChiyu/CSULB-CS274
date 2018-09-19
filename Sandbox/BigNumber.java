@@ -4,7 +4,6 @@ public class BigNumber{ //This class is pretty much my version of BigDecimal
 
 	private BigInteger bigNum;
 	private int scaleFactor = 0;
-	private final int DIVIDE_SCALE = 20;
 
 	public static final BigNumber DIVS_CONST = new BigNumber("100000000000000000000");
 	public static final BigNumber ONE = new BigNumber("1");
@@ -93,7 +92,7 @@ public class BigNumber{ //This class is pretty much my version of BigDecimal
 	}
 
 	public static void main(String[] args){
-		BigNumber bn1 = new BigNumber(".1");
+		BigNumber bn1 = new BigNumber(".000001");
 		BigNumber bn2 = new BigNumber("1.4");
 		System.out.println(bn1.divide(bn2));
 	}

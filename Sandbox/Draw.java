@@ -18,7 +18,7 @@ public class Draw extends JPanel{
 	private Thread thread;
 	private boolean runFlag;
 
-	private Stick crux,leg1,leg2,leg3;
+	private Stick crux,leg1,leg2;
 
 	public Draw(){
 		panel();
@@ -28,11 +28,9 @@ public class Draw extends JPanel{
 
 
 	private void sticks(){
-		crux = new Stick(center,new Dimension(10,75),0,10);
-		leg1 = new Stick(crux, new Dimension(10,100),Math.PI/3,7);
-		leg2 = new Stick(leg1, new Dimension(10,125),Math.PI/2,3);
-		leg3 = new Stick(leg2, new Dimension(10,100),Math.PI/4,1);
-
+		crux = new Stick(center,new Dimension(5,300),0,4);
+		leg1 = new Stick(crux,new Dimension(5,100),0,2);
+		leg2 = new Stick(crux,new Dimension(5,150),Math.PI/2,1);
 	}
 
 	private synchronized void start(){
@@ -46,10 +44,12 @@ public class Draw extends JPanel{
 
 	private void update(){
 		while(runFlag){
-		    Point p = leg3.endPoint();
+		    Point p1 = leg1.endPoint();
+		    Point p2 = leg2.endPoint();
 		    Graphics canvasGraphics = canvas.getGraphics();
 			canvasGraphics.setColor(Color.BLACK);
-			canvasGraphics.fillOval(p.x-5,p.y-5,10,10);
+			canvasGraphics.fillOval(p1.x-5,p1.y-5,5,5);
+			canvasGraphics.fillOval(p2.x-5,p2.y-5,5,5);
 			repaint();
 			try{Thread.sleep(1);}catch(Exception e) {}
 		}
@@ -79,7 +79,6 @@ public class Draw extends JPanel{
 			crux.draw(g);
 			leg1.draw(g);
 			leg2.draw(g);
-			leg3.draw(g);
 		}catch(Exception e) {} 
 	}
 

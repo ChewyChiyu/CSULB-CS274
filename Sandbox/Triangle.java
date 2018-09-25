@@ -47,9 +47,9 @@ public class Triangle extends JPanel{
 
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
-		sierpinskiCarpet(center.x, center.y, 0, fractalStep, SQUARE_WIDTH*4, g);
+		//sierpinskiCarpet(center.x, center.y, 0, fractalStep, SQUARE_WIDTH*4, g);
 		//sierpinski(floor.x, floor.y, 0, fractalStep, TRIANGLE_WIDTH, g);
-		//tSquare(center.x, center.y, 0, fractalStep, SQUARE_WIDTH, g);
+		tSquare(center.x, center.y, 0, fractalStep, SQUARE_WIDTH, g);
 	}
 
 

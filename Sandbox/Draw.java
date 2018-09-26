@@ -30,7 +30,7 @@ public class Draw extends JPanel{
 	private void sticks(){
 		crux = new Stick(center,new Dimension(5,300),0,4);
 		leg1 = new Stick(crux,new Dimension(5,100),0,2);
-		leg2 = new Stick(crux,new Dimension(5,150),Math.PI/2,1);
+		leg2 = new Stick(leg1,new Dimension(5,150),Math.PI/2,1);
 	}
 
 	private synchronized void start(){
@@ -44,12 +44,10 @@ public class Draw extends JPanel{
 
 	private void update(){
 		while(runFlag){
-		    Point p1 = leg1.endPoint();
-		    Point p2 = leg2.endPoint();
+		    Point p1 = leg2.endPoint();
 		    Graphics canvasGraphics = canvas.getGraphics();
 			canvasGraphics.setColor(Color.BLACK);
 			canvasGraphics.fillOval(p1.x-5,p1.y-5,5,5);
-			canvasGraphics.fillOval(p2.x-5,p2.y-5,5,5);
 			repaint();
 			try{Thread.sleep(1);}catch(Exception e) {}
 		}

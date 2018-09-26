@@ -1,5 +1,7 @@
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 
 /*
@@ -79,26 +81,38 @@ public class BlackJack extends CardGame{
 		upper limit of 21
 	*/
 	public int handValue(ArrayList<Card> hand){
+		sortHand(hand);
 		int val = 0;
-		boolean hasAce = false;
 		for(Card c : hand){
 			if(c.getRank()==1){ //card is ace
-				hasAce = true;
+				if(val+11>MAX_HAND){
+					val++;
+				}else{
+					val+=11;
+				}
 			}else if(c.getRank()>=10){
 				val+=10;
 			}else{
 				val+= c.getRank();
 			}
 		}
-		if(hasAce){
-			if(val+11>MAX_HAND){
-				val++;
-			}else{
-				val+=11;
-			}
-		}
 		return val;
 	}
+
+
+	/*
+		@param ArrayList<Card> hand, this is the hand that needs to be sorted
+		Decreasing sort using comparable
+	*/
+	public void sortHand(ArrayList<Card> hand){
+		Collections.sort(hand, new Comparator<Card>() {
+				@Override
+				public int compare(Card lhs, Card rhs) {
+					// -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+					return rhs.getRank() < lhs.getRank() ? -1 : (rhs.getRank() > lhs.getRank()) ? 0 : 1;
+				}
+			});
+	}	
 
 	/*		
 		forced inheritance method from cardgame abstrac class,

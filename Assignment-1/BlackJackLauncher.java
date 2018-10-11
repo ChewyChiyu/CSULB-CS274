@@ -1,4 +1,4 @@
-/*
+/**
 	@author Evan Chen
 	Basic Launcher of blackJack
 */

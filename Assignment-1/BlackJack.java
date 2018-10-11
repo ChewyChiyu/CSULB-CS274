@@ -4,23 +4,29 @@ import java.util.Collections;
 import java.util.Comparator;
 
 
-/*
+/**
 	Black Jack class extending from Abstract CardGame, implements the abstract methods
 	menu() and play()
 */
 public class BlackJack extends CardGame{
 
-	//private variables for local storage
+	/**
+	private variables for local storage
+	*/
 	private int balance;
 	private Scanner player;
 
 	private ArrayList<Card> playerHand, computerHand;
 
-	//max upper bound limit MAX_HAND and FORCE_DRAW_MIN inclusive
+	/**
+	max upper bound limit MAX_HAND and FORCE_DRAW_MIN inclusive
+	*/
 	public final int MAX_HAND = 21, FORCE_DRAW_MIN = 17;
 
 
-	//basic constructor, initializes variables and loads menu
+	/** 
+	basic constructor, initializes variables and loads menu
+	*/
 	public BlackJack(){
 		super(new Deck());
 		player = new Scanner(System.in);
@@ -30,7 +36,7 @@ public class BlackJack extends CardGame{
 		menu();
 	}
 
-	/*	
+	/**	
 		This code alters the balance, handles case of no money or not enough money
 		@param int inc, positive/negative numbers into balance
 		@return altered balance of avaiable, -1 otherwise 
@@ -41,7 +47,7 @@ public class BlackJack extends CardGame{
 		return balance;
 	}
 
-	/*
+	/**
 		@param ArrayList<Card>: hand array of specified cards
 		adds card to hand form deck
 	*/
@@ -50,7 +56,7 @@ public class BlackJack extends CardGame{
 	}
 
 
-	/*
+	/**
 		@param ArrayList<Card>: hand array of specified cards
 		shows card from array
 		@param boolean hide: whether or not to hide the first card of the hand as ????
@@ -66,7 +72,7 @@ public class BlackJack extends CardGame{
 		}
 	}
 
-	/*
+	/**
 		@param ArrayList<Card> hand: hand array of specified cards
 		clear card from array
 	*/
@@ -74,7 +80,7 @@ public class BlackJack extends CardGame{
 		hand.clear();
 	}
 
-	/*
+	/**
 		@param ArrayList<Card> hand: hand array of specified cards
 		clear card from array
 		@return int: totals up the rank value of the cards in the hand, ace counts as 1 or 11 based on the max
@@ -100,7 +106,7 @@ public class BlackJack extends CardGame{
 	}
 
 
-	/*
+	/**
 		@param ArrayList<Card> hand, this is the hand that needs to be sorted
 		Decreasing sort using comparable
 	*/
@@ -114,7 +120,7 @@ public class BlackJack extends CardGame{
 			});
 	}	
 
-	/*		
+	/**		
 		forced inheritance method from cardgame abstrac class,
 		Scanner and console as I/O. Menu options and invalid options handling included.
 		Betting of balance taken here as well.
@@ -163,7 +169,7 @@ public class BlackJack extends CardGame{
 		}	
 	}
 
-	/*
+	/**
 	@param int player: player total
 	@param int computer: dealer total
 	@param int bet: amount player is better
@@ -190,7 +196,7 @@ public class BlackJack extends CardGame{
 	}
 
 
-	/*	
+	/**	
 		Computing the computer/dealers turn.
 		@return -1 or overflow or handValue() of the dealers hand
 		after AI finishes drawing and holding. AI basic probability of
@@ -231,7 +237,7 @@ public class BlackJack extends CardGame{
 	}
 
 
-	/*
+	/**
 		@return -1 or overflow or handValue() of the dealers hand
 		Scanner Input for options for hitting more cards, player showed dealer hidden status
 		hand and personal hand. 
@@ -261,7 +267,7 @@ public class BlackJack extends CardGame{
 		return handValue;
 	}
 
-	/*
+	/**
 		Menu of the game, of of the methods force inherited form abstract class.
 		Invalid inputs handled.
 	*/

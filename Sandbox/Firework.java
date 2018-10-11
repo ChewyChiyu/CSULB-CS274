@@ -40,21 +40,23 @@ public class Firework extends JPanel{
 	}
 
 	public void update(){
-		while(isRun){
-			repaint();
-			for(int index = 0; index < rockets.size(); index++){
-				Rocket r = rockets.get(index);
-				r.update();
-				if(r.shouldDelete()){
-					rockets.remove(r);
-					index--;
+		try{
+			while(isRun){
+				repaint();
+				for(int index = 0; index < rockets.size(); index++){
+					Rocket r = rockets.get(index);
+					r.update();
+					if(r.shouldDelete()){
+						rockets.remove(r);
+						index--;
+					}
 				}
+				if(Math.random()<0.3&&Math.random()<0.2){ // (1/30)*(1/20) chance
+					loadRockets();
+				}
+				Thread.sleep(SLEEP_TIME); 
 			}
-			if(Math.random()<0.3&&Math.random()<0.2){ // (1/30)*(1/20) chance
-				loadRockets();
-			}
-			try{ Thread.sleep(SLEEP_TIME); }catch(Exception e){}
-		}
+		}catch(Exception e) {}
 	}
 
 	public void panel(){
@@ -96,9 +98,9 @@ class Rocket{
 	final Color launchColor = Color.WHITE;
 	final Point launchVelocity = new Point(0,-25+(int)(Math.random()*-10));
 
-	final int explodeParticleNum = 800, explodeTime = 20+(int)(Math.random()*10);
+	final int explodeParticleNum = 800, explodeTime = 15+(int)(Math.random()*10);
 	private Color explodeColor;
-	final Dimension explodeDim = new Dimension(1,1);
+	final Dimension explodeDim = new Dimension(1,2);
 
 	private boolean exploded;
 

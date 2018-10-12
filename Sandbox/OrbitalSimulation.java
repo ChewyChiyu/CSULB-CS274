@@ -7,6 +7,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+
 @SuppressWarnings("serial")
 public class OrbitalSimulation extends JPanel{
 
@@ -22,11 +23,12 @@ public class OrbitalSimulation extends JPanel{
 
 	private final Point origin = new Point(windowDim.width/2,windowDim.height/2);
 
-	private Planet p1, p2, p3;
+	private Planet p1, p2, p3, p4, p5;
 
 	private Planet currentSelect;
 
-	private final int SCALE = 4;
+	private final int SCALE = 5;
+
 
 	public OrbitalSimulation(){
 		panel();
@@ -36,9 +38,13 @@ public class OrbitalSimulation extends JPanel{
 	}
 
 	private void initialize(){
-		p1 = new Planet(new Point(origin.x*SCALE+200,origin.y*SCALE+200),50,15);
+		p1 = new Planet(new Point(origin.x*SCALE+200,origin.y*SCALE+200),50,100);
 		p2 = new Planet(new Point(origin.x*SCALE+300,origin.y*SCALE),100,300);
-		p3 = new Planet(new Point(origin.x*SCALE-500,origin.y*SCALE-200),300,1000);
+		p3 = new Planet(new Point(origin.x*SCALE-500,origin.y*SCALE-200),300,1500);
+		p4 = new Planet(new Point(origin.x*SCALE,origin.y*SCALE),100,300);
+		p5 = new Planet(new Point(origin.x*SCALE-400,origin.y*SCALE+100),100,300);
+
+		
 	}
 
 	private void input(){
@@ -97,6 +103,16 @@ public class OrbitalSimulation extends JPanel{
 			p3.y+p3.getRadius()/2>y&&
 			p3.y-p3.getRadius()<y){
 			return p3;
+		}else if(p4.x+p4.getRadius()/2>x&&
+			p4.x-p4.getRadius()<x&&
+			p4.y+p4.getRadius()/2>y&&
+			p4.y-p4.getRadius()<y){
+			return p4;
+		}else if(p5.x+p5.getRadius()/2>x&&
+			p5.x-p5.getRadius()<x&&
+			p5.y+p5.getRadius()/2>y&&
+			p5.y-p5.getRadius()<y){
+			return p5;
 		}else{
 			return null;
 		}
@@ -124,17 +140,23 @@ public class OrbitalSimulation extends JPanel{
 			if(!(p1p3Distance<(p1.getRadius()/2+p3.getRadius()/2))){ 
 				p1.vX += (GRAVITY_CONST*p3.getMass()*(p3.x-p1.x))/(p1p3Distance*p1p3Distance);
 				p1.vY += (GRAVITY_CONST*p3.getMass()*(p3.y-p1.y))/(p1p3Distance*p1p3Distance);
-				p3.vX += (GRAVITY_CONST*p1.getMass()*(p1.x-p3.x))/(p1p3Distance*p1p3Distance);
-				p3.vY += (GRAVITY_CONST*p1.getMass()*(p1.y-p3.y))/(p1p3Distance*p1p3Distance);
 			}
 			double p2p3Distance = distanceBetween(p2,p3);
 			if(!(p2p3Distance<(p2.getRadius()/2+p3.getRadius()/2))){ 
 				p2.vX += (GRAVITY_CONST*p3.getMass()*(p3.x-p2.x))/(p2p3Distance*p2p3Distance);
 				p2.vY += (GRAVITY_CONST*p3.getMass()*(p3.y-p2.y))/(p2p3Distance*p2p3Distance);
-				p3.vX += (GRAVITY_CONST*p2.getMass()*(p2.x-p3.x))/(p2p3Distance*p2p3Distance);
-				p3.vY += (GRAVITY_CONST*p2.getMass()*(p2.y-p3.y))/(p2p3Distance*p2p3Distance);
 			}
-
+			double p3p4Distance = distanceBetween(p3,p4);
+			if(!(p3p4Distance<(p2.getRadius()/2+p4.getRadius()/2))){ 
+				p4.vX += (GRAVITY_CONST*p3.getMass()*(p3.x-p4.x))/(p3p4Distance*p3p4Distance);
+				p4.vY += (GRAVITY_CONST*p3.getMass()*(p3.y-p4.y))/(p3p4Distance*p3p4Distance);
+			}
+			double p3p5Distance = distanceBetween(p3,p5);
+			if(!(p3p5Distance<(p2.getRadius()/2+p5.getRadius()/2))){ 
+				p5.vX += (GRAVITY_CONST*p3.getMass()*(p3.x-p5.x))/(p3p5Distance*p3p5Distance);
+				p5.vY += (GRAVITY_CONST*p3.getMass()*(p3.y-p5.y))/(p3p5Distance*p3p5Distance);
+			}
+			
 
 
 			markCanvas();
@@ -142,6 +164,8 @@ public class OrbitalSimulation extends JPanel{
 			p1.move();
 			p2.move();
 			p3.move();
+			p4.move();
+			p5.move();
 
 			repaint();
 			try{ Thread.sleep(SLEEP_TIME);}catch(Exception e) {}
@@ -156,6 +180,10 @@ public class OrbitalSimulation extends JPanel{
 		g.fillOval((int)p2.x/SCALE,(int)p2.y/SCALE,3,3);
 		g.setColor(Color.GREEN);
 		g.fillOval((int)p3.x/SCALE,(int)p3.y/SCALE,3,3);
+		g.setColor(Color.PINK);
+		g.fillOval((int)p4.x/SCALE,(int)p4.y/SCALE,3,3);
+		g.setColor(Color.ORANGE);
+		g.fillOval((int)p5.x/SCALE,(int)p5.y/SCALE,3,3);
 	}
 
 	public double distanceBetween(Planet p1, Planet p2){
@@ -170,6 +198,8 @@ public class OrbitalSimulation extends JPanel{
 			p1.draw(g,SCALE);
 			p2.draw(g,SCALE);
 			p3.draw(g,SCALE);
+			p4.draw(g,SCALE);
+			p5.draw(g,SCALE);
 		}catch(Exception e) {e.printStackTrace();}
 	}
 

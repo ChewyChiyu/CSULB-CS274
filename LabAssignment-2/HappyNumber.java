@@ -11,7 +11,9 @@ public class HappyNumber{
 
 	//default constructor
 	public HappyNumber(){
-		happyCycle(query(),null);
+		int n = query();
+		System.out.print("Sequence: ");
+		happyCycle(n,null);
 		System.out.println();
 	}
 
@@ -54,7 +56,13 @@ public class HappyNumber{
 		System.out.println("Please input a number.");
 		try{
 			int input = scan.nextInt();
-			return input;
+			if(input>0){
+				return input;
+			}
+			else{ 
+				System.out.println("Please input a positive number.");
+				return query();
+			}
 		}catch(Exception e){
 			System.out.println("Invalid input.");
 			return query();

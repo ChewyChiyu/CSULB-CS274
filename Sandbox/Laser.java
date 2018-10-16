@@ -18,7 +18,8 @@ public class Laser extends JPanel{
 	private Line2D[] lines = new Line2D[]{	new Line2D.Double(100,100,600,100),
 											new Line2D.Double(800,100,800,600),
 											new Line2D.Double(100,100,500,600),
-											new Line2D.Double(100,300,100,600),	};
+											new Line2D.Double(100,300,100,600),
+											new Line2D.Double(100,700,700,700) };
 
 	
 	private BufferedImage canvas;
@@ -73,14 +74,13 @@ public class Laser extends JPanel{
 
 	public Line2D reflect(Line2D laser, Line2D line,boolean forward){
 		double reciprocal = -getSlope(laser);
-		if(getSlope(line)==0){
-			if(getSlope(laser)>0){
+		if(getSlope(line)==0){ //horizontal
+			if(laser.getX2()<laser.getX1()){
 				forward = false;
 			}else{
 				forward = true;
 			}
-		}
-		else if(getSlope(line)!=1000000){
+		}else if(getSlope(line)!=1000000){ // dy/dx != 0 || N/A
 			double theta = (Math.atan(getSlope(line))-Math.atan(getSlope(laser)));
 			double sai = -(Math.PI-2*theta);
 			double x2 = laser.getX1()*Math.cos(sai)-laser.getY1()*Math.sin(sai);
@@ -100,13 +100,13 @@ public class Laser extends JPanel{
 					forward = true;
 				}
 			}
-			
-
-			g.setColor(Color.BLUE);
-		
 			return extendLine(reflect,EXTRA_RANGE,forward);
-		}else{
-			forward = false;
+		}else{ //vertical
+			if(laser.getX2()<laser.getX1()){
+				forward = true;
+			}else{
+				forward = false;
+			}
 		}
 		Point2D p2 = new Point2D.Double(laser.getX2()+5,laser.getY2()+reciprocal*5);
 		Line2D reflect = getLine(laser.getP2(),p2);

@@ -158,6 +158,9 @@ public class RomanNumCalc{
 		}
 	}	
 
+	/**
+		@return String of a valid Roman Numeral
+	*/
 	public String validRomanQuery(){
 		try{
 			Scanner scan = new Scanner(System.in);
@@ -170,7 +173,7 @@ public class RomanNumCalc{
 				if(s!='I'&&s!='V'&&s!='X'&&s!='L'&&s!='C'&&s!='D'&&s!='M'){valid = false;}
 				if(prev!=' '&&s==prev){ inARow++; }else{inARow=0;}
 				if(inARow>2){ valid = false; }
-				if(inARow>1&&!(s=='I'||s=='X'||s=='C'||s=='M')){ valid = false; }
+				if(inARow>=1&&(s!='I'&&s!='X'&&s!='C'&&s!='M')){ valid = false; }
 				if(prev!=' '&&(singleRomanToArabic(""+s)>singleRomanToArabic(""+prev)*10)){valid=false;}
 				if(prev!=' '&&(singleRomanToArabic(""+s)>singleRomanToArabic(""+prev))&&(prev!='I'&&prev!='X'&&prev!='C'&&prev!='M')){valid=false;}
 				prev = s;

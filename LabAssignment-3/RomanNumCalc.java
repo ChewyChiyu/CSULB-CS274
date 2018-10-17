@@ -5,7 +5,26 @@ public class RomanNumCalc{
 		Constructor to load self instance of Class
 	*/
 	public RomanNumCalc(){
-		System.out.println(arabicToRoman(2817));
+		String[] query = validStringQuery();
+		String result = "";
+		for(String s : query){ System.out.print(s + " "); }
+		switch(query[1]){
+			case "-":
+				int n = romanToArabic(query[0])-romanToArabic(query[2]);
+				result = arabicToRoman(Math.abs(n));
+				if(n<0){
+					result = "-"+result;
+				}
+				break;
+			case "+":
+				result = arabicToRoman(romanToArabic(query[0])+romanToArabic(query[2]));
+				break;
+			case "*":
+				result = arabicToRoman(romanToArabic(query[0])*romanToArabic(query[2]));
+				break;
+		}
+		System.out.print("= " + result);
+		System.out.println();
 	}
 
 	/**
@@ -110,19 +129,13 @@ public class RomanNumCalc{
 		@return String[]: proper readable parsed String[] from the user with Scanner Object
 	*/
 	public String[] validStringQuery(){
-		try{
-			Scanner scan = new Scanner(System.in);
-			String[] query = new String[3]; 
-			System.out.println("Please Input First Roman Numeral");
-			query[0] = scan.next();
-			query[1] = validOperandQuery();
-			System.out.println("Please Input Second Roman Numeral");
-			query[2] = scan.next();
-			return query;
-		}catch(Exception e){
-			System.out.println("Invalid Input");
-			return validStringQuery();
-		}
+		String[] query = new String[3]; 
+		System.out.println("Please Input First Roman Numeral");
+		query[0] = validRomanQuery();
+		query[1] = validOperandQuery();
+		System.out.println("Please Input Second Roman Numeral");
+		query[2] = validRomanQuery();
+		return query;
 	}
 
 	/**
@@ -142,6 +155,35 @@ public class RomanNumCalc{
 		}catch(Exception e){
 			System.out.println("Invalid Input");
 			return validOperandQuery();
+		}
+	}	
+
+	public String validRomanQuery(){
+		try{
+			Scanner scan = new Scanner(System.in);
+			String input = scan.next();
+			boolean valid = true;
+			//checking for correct characters
+			char prev =  ' ';
+			int inARow = 0;
+			for(char s : input.toCharArray()){
+				if(s!='I'&&s!='V'&&s!='X'&&s!='L'&&s!='C'&&s!='D'&&s!='M'){valid = false;}
+				if(prev!=' '&&s==prev){ inARow++; }else{inARow=0;}
+				if(inARow>2){ valid = false; }
+				if(inARow>1&&!(s=='I'||s=='X'||s=='C'||s=='M')){ valid = false; }
+				if(prev!=' '&&(singleRomanToArabic(""+s)>singleRomanToArabic(""+prev)*10)){valid=false;}
+				if(prev!=' '&&(singleRomanToArabic(""+s)>singleRomanToArabic(""+prev))&&(prev!='I'&&prev!='X'&&prev!='C'&&prev!='M')){valid=false;}
+				prev = s;
+			}
+			if(valid){
+				return input;
+			}else{
+				System.out.println("Invalid Roman Numeral");
+				return validRomanQuery();
+			}
+		}catch(Exception e){
+			System.out.println("Invalid Input");
+			return validRomanQuery();
 		}
 	}
 

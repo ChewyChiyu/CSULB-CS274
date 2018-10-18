@@ -14,6 +14,8 @@ public class RomanNumCalc{
 				result = arabicToRoman(Math.abs(n));
 				if(n<0){
 					result = "-"+result;
+				}else if(n==0){
+					result = "nulla";
 				}
 				break;
 			case "+":
@@ -53,7 +55,6 @@ public class RomanNumCalc{
 	*/
 	public int romanToArabic(String rn){
 		Queue romanQueue = stringToQueue(rn);
-		Queue prevItemQueue = new Queue(); 
 		Stack stackRoman = new Stack();
 		int result = 0;
 		while(romanQueue.size()>0){
@@ -63,17 +64,13 @@ public class RomanNumCalc{
 			}else if(stackRoman.size()==0&&romanQueue.size()>0){
 				stackRoman.push(next);
 			}else if(singleRomanToArabic(stackRoman.peek())<singleRomanToArabic(next)){
-				result+=(singleRomanToArabic(next)-singleRomanToArabic(stackRoman.peek()));
-				prevItemQueue.push(stackRoman.pop());
+				result+=(singleRomanToArabic(next)-singleRomanToArabic(stackRoman.pop()));
 			}else if(romanQueue.size()>0&&(singleRomanToArabic(stackRoman.peek())>=singleRomanToArabic(next))){
-				result+=singleRomanToArabic(stackRoman.peek());
-				prevItemQueue.push(stackRoman.pop());
+				result+=singleRomanToArabic(stackRoman.pop());
 				stackRoman.push(next);
 			}else if((singleRomanToArabic(stackRoman.peek())>=singleRomanToArabic(next))){
-				result+=singleRomanToArabic(stackRoman.peek());
-				prevItemQueue.push(stackRoman.pop());
+				result+=singleRomanToArabic(stackRoman.pop());
 				result+=singleRomanToArabic(next);
-				prevItemQueue.push(next);
 			}
 		}
 		return result;
@@ -169,11 +166,15 @@ public class RomanNumCalc{
 			//checking for correct characters
 			char prev =  ' ';
 			int inARow = 0;
+			int ascending = 0;
 			for(char s : input.toCharArray()){
 				if(s!='I'&&s!='V'&&s!='X'&&s!='L'&&s!='C'&&s!='D'&&s!='M'){valid = false;}
+				if(inARow>=1&&(singleRomanToArabic(""+s)>singleRomanToArabic(""+prev))){valid=false;}
 				if(prev!=' '&&s==prev){ inARow++; }else{inARow=0;}
+				if(prev!=' '&&(singleRomanToArabic(""+s)>singleRomanToArabic(""+prev))){ascending++;}else{ascending=0;}
+				if(ascending>=2){ valid = false; }
 				if(inARow>2){ valid = false; }
-				if(inARow>=1&&(s!='I'&&s!='X'&&s!='C'&&s!='M')){ valid = false; }
+				if(inARow>=1&&(s!='I'&&s!='X'&&s!='C'&&s!='M')){valid = false;}
 				if(prev!=' '&&(singleRomanToArabic(""+s)>singleRomanToArabic(""+prev)*10)){valid=false;}
 				if(prev!=' '&&(singleRomanToArabic(""+s)>singleRomanToArabic(""+prev))&&(prev!='I'&&prev!='X'&&prev!='C'&&prev!='M')){valid=false;}
 				prev = s;

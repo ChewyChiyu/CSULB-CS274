@@ -5,6 +5,9 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.awt.geom.Point2D;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseEvent;
 
 public class PendulumTest extends JPanel{
 		
@@ -18,18 +21,45 @@ public class PendulumTest extends JPanel{
 
 	private Thread thread;
 	private boolean shouldRun;
+	private boolean isTracking;
 	private final int SCALE = 14;
-	private final int SLEEP_TIME = 2;
-
+	private final int SLEEP_TIME = 1;
 	public PendulumTest(){
 		panel();
+		input();
 		start();
+	}
+
+	public void input(){
+		addMouseListener(new MouseAdapter() {
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    isTracking = true;
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+                    isTracking = false;
+               		newCanvas();
+            }
+        });
+		addMouseMotionListener(new MouseMotionAdapter() { 
+        	public void mouseDragged(MouseEvent e) {
+            	if(isTracking){ 
+            		x = (e.getX()-center.getX())/SCALE;
+            		y = STRING_LEN-Math.tan(Math.acos(x/STRING_LEN))*x;
+               		repaint();
+            	}
+        	}
+    	});
 	}
 
 	public void start(){
 		try{
 			Runnable run = () -> update();
 			shouldRun = true;
+			isTracking = false;
 			thread = new Thread(run);
 			thread.start();
 		}catch(Exception e){}
@@ -42,14 +72,16 @@ public class PendulumTest extends JPanel{
 		final double GRAVITY = -4;
 		final double AIR_RES = 0.04;
 		x = INITIAL_X;
-		y = Math.tan(Math.acos(x/STRING_LEN))*x;
+		y = STRING_LEN-Math.tan(Math.acos(x/STRING_LEN))*x;
 		double m = 1;
 		double vX = 0;
 		while(shouldRun){
-			vX += ((((y/x)*(GRAVITY*m))-AIR_RES*vX)*DELTA_TIME)/m;
-			x+=vX*DELTA_TIME;
-			y =STRING_LEN-Math.tan(Math.acos(x/STRING_LEN))*x;
-			repaint();
+			if(!isTracking){
+				vX += ((((y/x)*(GRAVITY*m))-AIR_RES*vX)*DELTA_TIME)/m;
+				x+=vX*DELTA_TIME;
+				y = STRING_LEN-Math.tan(Math.acos(x/STRING_LEN))*x;
+				repaint();
+			}
 			try{ Thread.sleep(SLEEP_TIME);}catch(Exception e){}
 		}
 	}
@@ -59,7 +91,7 @@ public class PendulumTest extends JPanel{
 	}
 
 	public void panel(){
-		JFrame frame = new JFrame("Laser Simulation");
+		JFrame frame = new JFrame("Pendulum Test");
 		frame.add(this);
 		frame.setPreferredSize(windowDim);
 		frame.pack();

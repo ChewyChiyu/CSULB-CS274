@@ -68,9 +68,9 @@ public class PendulumTest extends JPanel{
 	public void update(){
 		final int MAX_TIME = 60;
 		final double DELTA_TIME = 0.01;
-		final double INITIAL_X = 22;
+		final double INITIAL_X = 30;
 		final double GRAVITY = -4;
-		final double AIR_RES = 0.04;
+		final double AIR_RES = 0.007;
 		x = INITIAL_X;
 		y = STRING_LEN-Math.tan(Math.acos(x/STRING_LEN))*x;
 		double m = 1;

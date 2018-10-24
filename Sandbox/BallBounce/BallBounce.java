@@ -25,7 +25,7 @@ public class BallBounce extends JPanel{
 
 	private Point2D cursor = null;
 
-	private final int MIN_RADIUS = 30;
+	private final int MIN_RADIUS = 40;
 	private final int MAX_RADIUS = 200;
 
 	private Thread thread;
@@ -35,11 +35,11 @@ public class BallBounce extends JPanel{
 
 	private final double VECTOR_SCALE = 0.2;
 
-	private final double FRICTION = 0.01;
+	private final double FRICTION = 0.03;
 
-	private final double GRAVITY = 0.2;
+	private final double GRAVITY = 0.4;
 
-	private final double WALL_ELA = 1.3;
+	private final double WALL_ELA = 1.0;
 
 	private final double MAX_BALLS = 100;
 
@@ -65,13 +65,16 @@ public class BallBounce extends JPanel{
 			int len = balls.size();
 			for(int index = 0; index < len; index++){
 				Ball b = balls.get(index);
-	     	 	
-				applyFriction(b);
 				checkContact(b);
 				wallBounce(b);
-				b.move();
+				checkContact(b);
 			}
-			
+			for(int index = 0; index < len; index++){
+				Ball b = balls.get(index);
+				b.move();
+				applyFriction(b);
+			}
+		
 			repaint();
 			try{ Thread.sleep(SLEEP_TIME); }catch(Exception e) {} 
 		}
@@ -114,6 +117,7 @@ public class BallBounce extends JPanel{
 				b.dy += collisionWeightA * yCollision;
 				b2.dx -= collisionWeightB * xCollision;
 				b2.dy -= collisionWeightB * yCollision;
+				b2.move();
 					}
 				}
 			
@@ -132,7 +136,6 @@ public class BallBounce extends JPanel{
 	public void wallBounce(Ball b){
 		if(b.x-b.radius+b.dx<0){ b.dx = -b.dx*WALL_ELA; }
 		if(b.x+b.radius+b.dx>windowDim.width){ b.dx = -b.dx*WALL_ELA; }
-		if(b.y-b.radius+b.dy<0){ b.dy = -b.dy*WALL_ELA;}
 		if(b.y+b.radius+b.dy>=windowDim.height){
 			b.dy = -(b.dy*WALL_ELA);
 		}else if(b.active){
@@ -316,8 +319,8 @@ class Ball{
 		if(-MAX_VEL>dx){ dx = -MAX_VEL; }
 		if(MAX_VEL<dy){ dy = MAX_VEL; }
 		if(-MAX_VEL>dy){ dy = -MAX_VEL; }
-		this.x += dx*.1;
-		this.y += dy*.1;
+		this.x += dx*0.1;
+		this.y += dy*0.1;
 	}
 
 	public void draw(Graphics g){
@@ -326,10 +329,17 @@ class Ball{
 	}
 
 	public Color getColorGradient(){
-		double r = ((255)*(Math.abs(dx)+Math.abs(dy)))/10;
-		if(r>255){ r = 255; }
-		return new Color((int)r,(int)(255-r),0);
+		double gradient = getGradient(Math.abs(dy)+Math.abs(dx))*255;
+		if(gradient>255){
+			gradient = 255;
+		}
+		return new Color((int)gradient,(int)(255-gradient),0);
 	}
 
+	public double getGradient(double x){
+		final double MIN = 0;
+		final double MAX = MAX_VEL;
+		return (x-MIN)/(MAX-MIN);
+	}
 }
  

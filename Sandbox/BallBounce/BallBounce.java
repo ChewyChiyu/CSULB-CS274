@@ -37,7 +37,7 @@ public class BallBounce extends JPanel{
 
 	private final double FRICTION = 0.03;
 
-	private final double GRAVITY = 0.4;
+	private final double GRAVITY = 0.8;
 
 	private final double WALL_ELA = 1.0;
 

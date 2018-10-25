@@ -54,22 +54,6 @@ public class Trans3D extends JPanel{
 					zS.add(p.to_array()[2]);
 					g.fillOval((int)m.to_array()[0]+origin.x,(int)m.to_array()[1]+origin.y,R,R);
 				}
-				g.setColor(Color.BLACK);
-				g.drawLine((int)draws.get(0).to_array()[0]+origin.x,(int)draws.get(0).to_array()[1]+origin.y,(int)draws.get(1).to_array()[0]+origin.x,(int)draws.get(1).to_array()[1]+origin.y);
-				g.drawLine((int)draws.get(1).to_array()[0]+origin.x,(int)draws.get(1).to_array()[1]+origin.y,(int)draws.get(2).to_array()[0]+origin.x,(int)draws.get(2).to_array()[1]+origin.y);
-				g.drawLine((int)draws.get(2).to_array()[0]+origin.x,(int)draws.get(2).to_array()[1]+origin.y,(int)draws.get(3).to_array()[0]+origin.x,(int)draws.get(3).to_array()[1]+origin.y);
-				g.drawLine((int)draws.get(3).to_array()[0]+origin.x,(int)draws.get(3).to_array()[1]+origin.y,(int)draws.get(0).to_array()[0]+origin.x,(int)draws.get(0).to_array()[1]+origin.y);
-
-				g.drawLine((int)draws.get(4).to_array()[0]+origin.x,(int)draws.get(4).to_array()[1]+origin.y,(int)draws.get(5).to_array()[0]+origin.x,(int)draws.get(5).to_array()[1]+origin.y);
-				g.drawLine((int)draws.get(5).to_array()[0]+origin.x,(int)draws.get(5).to_array()[1]+origin.y,(int)draws.get(6).to_array()[0]+origin.x,(int)draws.get(6).to_array()[1]+origin.y);
-				g.drawLine((int)draws.get(6).to_array()[0]+origin.x,(int)draws.get(6).to_array()[1]+origin.y,(int)draws.get(7).to_array()[0]+origin.x,(int)draws.get(7).to_array()[1]+origin.y);
-				g.drawLine((int)draws.get(7).to_array()[0]+origin.x,(int)draws.get(7).to_array()[1]+origin.y,(int)draws.get(4).to_array()[0]+origin.x,(int)draws.get(4).to_array()[1]+origin.y);
-
-
-				g.drawLine((int)draws.get(0).to_array()[0]+origin.x,(int)draws.get(0).to_array()[1]+origin.y,(int)draws.get(4).to_array()[0]+origin.x,(int)draws.get(4).to_array()[1]+origin.y);
-				g.drawLine((int)draws.get(1).to_array()[0]+origin.x,(int)draws.get(1).to_array()[1]+origin.y,(int)draws.get(5).to_array()[0]+origin.x,(int)draws.get(5).to_array()[1]+origin.y);
-				g.drawLine((int)draws.get(2).to_array()[0]+origin.x,(int)draws.get(2).to_array()[1]+origin.y,(int)draws.get(6).to_array()[0]+origin.x,(int)draws.get(6).to_array()[1]+origin.y);
-				g.drawLine((int)draws.get(3).to_array()[0]+origin.x,(int)draws.get(3).to_array()[1]+origin.y,(int)draws.get(7).to_array()[0]+origin.x,(int)draws.get(7).to_array()[1]+origin.y);
 
 				//chain p1234
 				int[] polyX = new int[]{(int)draws.get(0).to_array()[0]+origin.x,(int)draws.get(1).to_array()[0]+origin.x,(int)draws.get(2).to_array()[0]+origin.x,(int)draws.get(3).to_array()[0]+origin.x};
@@ -123,11 +107,26 @@ public class Trans3D extends JPanel{
 				}else{
 					f5.draw(g);
 				}
-				
+				g.setColor(Color.BLACK);
+				g.drawLine((int)draws.get(0).to_array()[0]+origin.x,(int)draws.get(0).to_array()[1]+origin.y,(int)draws.get(1).to_array()[0]+origin.x,(int)draws.get(1).to_array()[1]+origin.y);
+				g.drawLine((int)draws.get(1).to_array()[0]+origin.x,(int)draws.get(1).to_array()[1]+origin.y,(int)draws.get(2).to_array()[0]+origin.x,(int)draws.get(2).to_array()[1]+origin.y);
+				g.drawLine((int)draws.get(2).to_array()[0]+origin.x,(int)draws.get(2).to_array()[1]+origin.y,(int)draws.get(3).to_array()[0]+origin.x,(int)draws.get(3).to_array()[1]+origin.y);
+				g.drawLine((int)draws.get(3).to_array()[0]+origin.x,(int)draws.get(3).to_array()[1]+origin.y,(int)draws.get(0).to_array()[0]+origin.x,(int)draws.get(0).to_array()[1]+origin.y);
+
+				g.drawLine((int)draws.get(4).to_array()[0]+origin.x,(int)draws.get(4).to_array()[1]+origin.y,(int)draws.get(5).to_array()[0]+origin.x,(int)draws.get(5).to_array()[1]+origin.y);
+				g.drawLine((int)draws.get(5).to_array()[0]+origin.x,(int)draws.get(5).to_array()[1]+origin.y,(int)draws.get(6).to_array()[0]+origin.x,(int)draws.get(6).to_array()[1]+origin.y);
+				g.drawLine((int)draws.get(6).to_array()[0]+origin.x,(int)draws.get(6).to_array()[1]+origin.y,(int)draws.get(7).to_array()[0]+origin.x,(int)draws.get(7).to_array()[1]+origin.y);
+				g.drawLine((int)draws.get(7).to_array()[0]+origin.x,(int)draws.get(7).to_array()[1]+origin.y,(int)draws.get(4).to_array()[0]+origin.x,(int)draws.get(4).to_array()[1]+origin.y);
+
+
+				g.drawLine((int)draws.get(0).to_array()[0]+origin.x,(int)draws.get(0).to_array()[1]+origin.y,(int)draws.get(4).to_array()[0]+origin.x,(int)draws.get(4).to_array()[1]+origin.y);
+				g.drawLine((int)draws.get(1).to_array()[0]+origin.x,(int)draws.get(1).to_array()[1]+origin.y,(int)draws.get(5).to_array()[0]+origin.x,(int)draws.get(5).to_array()[1]+origin.y);
+				g.drawLine((int)draws.get(2).to_array()[0]+origin.x,(int)draws.get(2).to_array()[1]+origin.y,(int)draws.get(6).to_array()[0]+origin.x,(int)draws.get(6).to_array()[1]+origin.y);
+				g.drawLine((int)draws.get(3).to_array()[0]+origin.x,(int)draws.get(3).to_array()[1]+origin.y,(int)draws.get(7).to_array()[0]+origin.x,(int)draws.get(7).to_array()[1]+origin.y);
 				repaint();
 				updateTheta();
 				updateRotations();
-				Thread.sleep(10); 
+				Thread.sleep(5); 
 			}
 		}catch(Exception e){ e.printStackTrace();}
 	}

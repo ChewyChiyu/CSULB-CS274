@@ -23,7 +23,7 @@ public class DoublePendulum extends JPanel{
 
 	private double r1 = m1+20, r2 = m2+20;
 
-	private final double G = 1;
+	private final double G = 1.8;
 
 	private boolean keepRun, pause;
 	private final int SLEEP_TIME = 10;
@@ -107,7 +107,7 @@ public class DoublePendulum extends JPanel{
 	public void run(){
 		double dTheta1 = 0;
 		double dTheta2 = 0;
-	 	final double D_SPEED = 0.0003;
+	 	final double D_SPEED = 0.0005;
 		while(keepRun){
 			System.out.println("dT1: " + dTheta1 + " dT2: " + dTheta2);
 			if(pause){ dTheta1 = 0; dTheta2 = 0; continue; }

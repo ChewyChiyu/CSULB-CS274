@@ -22,7 +22,7 @@ public class Fractal extends JPanel{
 
 	public void run(){
 		double lowerBound = -1.5, upperBound = 2, minX = 0, maxX = windowDim.width, minY = minX, maxY = maxX;
-		double limit = 1, cycles = 20;
+		double limit = 40, cycles = 20;
 		for(double x = minX; x <= maxX; x++){
 			for(double y = minY; y <= maxY; y++){
 				 double mX = map(x,minX,maxX,lowerBound,upperBound);

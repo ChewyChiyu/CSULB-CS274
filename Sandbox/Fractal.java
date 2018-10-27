@@ -22,7 +22,7 @@ public class Fractal extends JPanel{
 
 	public void run(){
 		double lowerBound = -1.5, upperBound = 2, minX = 0, maxX = windowDim.width, minY = minX, maxY = maxX;
-		double limit = 40, cycles = 20;
+		double limit = 40, cycles = 70;
 		for(double x = minX; x <= maxX; x++){
 			for(double y = minY; y <= maxY; y++){
 				 double mX = map(x,minX,maxX,lowerBound,upperBound);
@@ -53,7 +53,7 @@ public class Fractal extends JPanel{
 	public Color boundGradient(double x, double minX, double maxX){
 		double n = (x < maxX)? x : maxX;
 		double d = ((n-minX)/(maxX-minX))*255;
-		return new Color(255-(int)d,255-(int)d,255-(int)d);
+		return new Color(0,20,255-(int)d);
 	}
 
 	public Color gradient(double x, double minX, double maxX){

@@ -42,6 +42,7 @@ public class Trans3D extends JPanel{
 		try{
 			boolean flip1 = false, flip2 = false, flip3 = true;
 			while(true){
+				projection = new Matrix(new float[][]{{1,0,0},{0,1,0}});
 				newCanvas();
 				ArrayList<Matrix> draws = new ArrayList<Matrix>();
 				ArrayList<Float> zS = new ArrayList<Float>();

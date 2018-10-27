@@ -23,7 +23,7 @@ public class DoublePendulum extends JPanel{
 
 	private double r1 = m1+20, r2 = m2+20;
 
-	private final double G = 1.8;
+	private final double G = 1.9;
 
 	private boolean keepRun, pause;
 	private final int SLEEP_TIME = 10;

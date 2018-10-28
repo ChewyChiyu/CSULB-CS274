@@ -11,17 +11,21 @@ public class Ray{
 	public double mag(){
 		return Math.sqrt((fX-iX)*(fX-iX)+(fY-iY)*(fY-iY));
 	}
-	public double stretch(Map m,double max){
+	public RayDetail stretch(Map m,double max){
 		double dX = Math.cos(dir), dY = Math.sin(dir);
-		final double SCALE = 0.005;
+
+		final double SCALE = 0.001;
 		while(fX<m.getM()[0].length-1&&fX>0&&fY<m.getM().length-1&&fY>0&&m.getM()[(int)(fY)][(int)(fX)]==0){
 			fX+=Math.cos(dir)*SCALE;
 			fY+=Math.sin(dir)*SCALE;
 			if(mag()>max){
-				return max;
+				return new RayDetail(mag(),false);
 			}
 		}
-		return mag();
+		if(m.getM()[(int)(fY)][(int)(fX)]==3){
+			return new RayDetail(mag(),true);
+		}
+		return new RayDetail(mag(),false);
 	}
 
 }

@@ -8,7 +8,7 @@ public class Player{
 		this.y = y;
 		this.thetaX = thetaX;
 		this.dthetaX = dthetaX;
-		moveSpeed = 0.1;
+		moveSpeed = 0.05;
 		dx = 0;
 		dy = 0;
 	}
@@ -20,7 +20,7 @@ public class Player{
 
 	public void turnLeftX(){ 
 		thetaX-=dthetaX;
-		if(thetaX<=-Math.PI*2){ thetaX = 0; }
+		if(thetaX<=0){ thetaX = Math.PI*2; }
 	}
 
 	public void move(Map m){

@@ -6,6 +6,12 @@ import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import javax.swing.KeyStroke;
 import javax.swing.AbstractAction;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.AWTException; 
+import java.awt.Robot; 
+import java.awt.image.BufferedImage;
 public class RaycastSim extends JPanel{
 
 	private Camera c;
@@ -28,12 +34,14 @@ public class RaycastSim extends JPanel{
 	}
 
 	public void input(){
+
 		getInputMap().put(KeyStroke.getKeyStroke("W"), "W");
 		getActionMap().put("W", new AbstractAction(){
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				p.dy = p.moveSpeed;
+				p.dy = p.moveSpeed*Math.sin(p.thetaX);
+				p.dx = p.moveSpeed*Math.cos(p.thetaX);
 			}
 
 		});
@@ -42,7 +50,8 @@ public class RaycastSim extends JPanel{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				p.dy = -p.moveSpeed;
+				p.dy = -p.moveSpeed*Math.sin(p.thetaX);
+				p.dx = -p.moveSpeed*Math.cos(p.thetaX);
 			}
 
 		});
@@ -51,7 +60,8 @@ public class RaycastSim extends JPanel{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				p.dx = p.moveSpeed;
+				p.dy = p.moveSpeed*Math.sin(p.thetaX-Math.PI/2);
+				p.dx = p.moveSpeed*Math.cos(p.thetaX-Math.PI/2);
 			}
 
 		});
@@ -60,49 +70,53 @@ public class RaycastSim extends JPanel{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				p.dx = -p.moveSpeed;
+				p.dy = p.moveSpeed*Math.sin(p.thetaX+Math.PI/2);
+				p.dx = p.moveSpeed*Math.cos(p.thetaX+Math.PI/2);
 			}
 
 		});
 
 
-		getInputMap().put(KeyStroke.getKeyStroke("released W"), "releasedW");
-		getActionMap().put("releasedW", new AbstractAction(){
+		getInputMap().put(KeyStroke.getKeyStroke("released W"), "released");
+		getInputMap().put(KeyStroke.getKeyStroke("released S"), "released");
+		getInputMap().put(KeyStroke.getKeyStroke("released A"), "released");
+		getInputMap().put(KeyStroke.getKeyStroke("released D"), "released");
+		getActionMap().put("released", new AbstractAction(){
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				p.dy = 0;
-			}
-
-		});
-		getInputMap().put(KeyStroke.getKeyStroke("released S"), "releasedS");
-		getActionMap().put("releasedS", new AbstractAction(){
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				p.dy = 0;
-			}
-
-		});
-		getInputMap().put(KeyStroke.getKeyStroke("released A"), "releasedA");
-		getActionMap().put("releasedA", new AbstractAction(){
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
 				p.dx = 0;
 			}
 
 		});
-		getInputMap().put(KeyStroke.getKeyStroke("released D"), "releasedD");
-		getActionMap().put("releasedD", new AbstractAction(){
+		
+		getInputMap().put(KeyStroke.getKeyStroke("Q"), "quit");
+		getActionMap().put("quit", new AbstractAction(){
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				p.dx = 0;
+				System.exit(0);
 			}
 
 		});
+
+		addMouseMotionListener(new MouseMotionAdapter() { 
+        	public void mouseMoved(MouseEvent e) { //handling mouse movement with robot
+        		try{
+        			Robot mouse = new Robot();
+        			if(e.getX()<dim.width/2){
+        				p.turnLeftX();
+        			}else if(e.getX()>dim.width/2){
+        				p.turnRightX();
+        			}
+        			mouse.mouseMove(dim.width/2,dim.height/2);
+        		}catch(Exception a){}
+        	}
+    	});
 	}
+
+
 
 	public void start(){
 		 isRun = true;
@@ -123,6 +137,10 @@ public class RaycastSim extends JPanel{
 
 	public void panel(){
 		JFrame frame = new JFrame("Raycast Sim");
+		//turn cursor transparent
+		BufferedImage cursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
+		Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImg, new Point(0, 0), "blank cursor");
+		frame.getContentPane().setCursor(blankCursor);
 		frame.add(this);
 		frame.setPreferredSize(dim);
 		frame.pack();

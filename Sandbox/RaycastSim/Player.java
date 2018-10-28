@@ -8,7 +8,7 @@ public class Player{
 		this.y = y;
 		this.thetaX = thetaX;
 		this.dthetaX = dthetaX;
-		moveSpeed = 0.05;
+		moveSpeed = 0.02;
 		dx = 0;
 		dy = 0;
 	}

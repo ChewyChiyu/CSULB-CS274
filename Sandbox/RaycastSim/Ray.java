@@ -1,6 +1,7 @@
 public class Ray{
 	public double iX, iY,dir;
 	public double fX, fY;
+	public int hit = -1;
 	public Ray(double iX, double iY, double dir){
 		this.iX = iX;
 		this.iY = iY;
@@ -11,7 +12,7 @@ public class Ray{
 	public double mag(){
 		return Math.sqrt((fX-iX)*(fX-iX)+(fY-iY)*(fY-iY));
 	}
-	public RayDetail stretch(Map m,double max){
+	public double stretch(Map m,double max){
 		double dX = Math.cos(dir), dY = Math.sin(dir);
 
 		final double SCALE = 0.01;
@@ -19,13 +20,13 @@ public class Ray{
 			fX+=Math.cos(dir)*SCALE;
 			fY+=Math.sin(dir)*SCALE;
 			if(mag()>max){
-				return new RayDetail(mag(),false);
+				return mag();
 			}
 		}
 		if(m.getM()[(int)(fY)][(int)(fX)]==3){
-			return new RayDetail(mag(),true);
+			hit = m.getM()[(int)(fY)][(int)(fX)];
 		}
-		return new RayDetail(mag(),false);
+		return mag();
 	}
 
 }

@@ -12,6 +12,7 @@ import java.awt.event.MouseEvent;
 import java.awt.AWTException; 
 import java.awt.Robot; 
 import java.awt.image.BufferedImage;
+import java.awt.RenderingHints;
 public class RaycastSim extends JPanel{
 
 	private Camera c;
@@ -152,7 +153,9 @@ public class RaycastSim extends JPanel{
 
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
-		c.draw(p,m,(Graphics2D)g,dim); 
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+		c.draw(p,m,g2d,dim); 
 	}
 
 }

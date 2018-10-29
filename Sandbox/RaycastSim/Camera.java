@@ -30,11 +30,29 @@ public class Camera{
 
 		for(double angle = p.thetaX-angleSpan/2; angle <= p.thetaX+angleSpan/2; angle+=sweepAngle){
 			Ray r = new Ray(p.x,p.y,angle);
-			RayDetail rayLen = r.stretch(m,maxRange);
-			
-			double stretchLen = (((-dim.height)/maxRange)*(rayLen.mag)+dim.height);
-			g2d.setColor(((rayLen.hitToken)?getGradientRed(Math.abs(rayLen.mag),0,maxRange):getGradientBlack(Math.abs(rayLen.mag*Math.sin(angle)),0,maxRange)));
+			double rayLen = r.stretch(m,maxRange);
+			double stretchLen = (((-dim.height)/maxRange)*(rayLen)+dim.height);
+			g2d.setColor(getGradientBlack(rayLen,0,maxRange));
+			if(r.hit == 3){ //hit lord gaben wall
+				g2d.setColor(Color.WHITE);
+				if((r.fX-(int)r.fX)>(r.fY-(int)r.fY)){
+					if((int)(r.fX+r.fY)%2==0){
+						g2d.setColor(getGradientBlue(rayLen,0,maxRange));
+					}else{
+						g2d.setColor(getGradientRed(rayLen,0,maxRange));
+					}
+					
+				}else{
+					if((int)(r.fX+r.fY)%2==0){
+						g2d.setColor(getGradientRed(rayLen,0,maxRange));
+					}else{
+						g2d.setColor(getGradientBlue(rayLen,0,maxRange));
+					}
+				}
+			}
+
 			g2d.fillRect((int)xBuffer,(int)(originY-stretchLen/2),(int)(xDBuffer),(int)(stretchLen));
+			
 			xBuffer+=xDBuffer;
 		}
 	}

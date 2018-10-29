@@ -26,6 +26,7 @@ public class RaycastSimLauncher{
 
 
 	public RaycastSimLauncher(){
+		new Texture();
 		new RaycastSim(windowDim,c,m,p);
 	}
 

@@ -13,10 +13,16 @@ public class Trans3D extends JPanel{
 
 	private Matrix projection = new Matrix(new float[][]{{1,0,0},{0,1,0}});
 	private float theta = 0;
-	private Matrix xRotation = new Matrix(new float[][]{{1,0,0},{0,(float)Math.cos(theta),-(float)Math.sin(theta)},{0,(float)Math.sin(theta),(float)Math.cos(theta)}});
-	private Matrix yRotation = new Matrix(new float[][]{{(float)Math.cos(theta),0,(float)Math.sin(theta)},{0,1,0},{-(float)Math.sin(theta),0,(float)Math.cos(theta)}});
-	private Matrix zRotation = new Matrix(new float[][]{{(float)Math.cos(theta),-(float)Math.sin(theta),0},{(float)Math.sin(theta),(float)Math.cos(theta),0},{0,0,1}});
+	private Matrix xRotationCube = new Matrix(new float[][]{{1,0,0},{0,(float)Math.cos(theta),-(float)Math.sin(theta)},{0,(float)Math.sin(theta),(float)Math.cos(theta)}});
+	private Matrix yRotationCube = new Matrix(new float[][]{{(float)Math.cos(theta),0,(float)Math.sin(theta)},{0,1,0},{-(float)Math.sin(theta),0,(float)Math.cos(theta)}});
+	private Matrix zRotationCube = new Matrix(new float[][]{{(float)Math.cos(theta),-(float)Math.sin(theta),0},{(float)Math.sin(theta),(float)Math.cos(theta),0},{0,0,1}});
+		
+	private double rx = 0, ry = 0, rz = 0;	
 
+	private Matrix xRotationCam = new Matrix(new float[][]{{1,0,0},{0,(float)Math.cos(rx),-(float)Math.sin(rx)},{0,(float)Math.sin(rx),(float)Math.cos(rx)}});
+	private Matrix yRotationCam = new Matrix(new float[][]{{(float)Math.cos(ry),0,(float)Math.sin(ry)},{0,1,0},{-(float)Math.sin(ry),0,(float)Math.cos(ry)}});
+	private Matrix zRotationCam = new Matrix(new float[][]{{(float)Math.cos(rz),-(float)Math.sin(rz),0},{(float)Math.sin(rz),(float)Math.cos(rz),0},{0,0,1}});
+	
 	private final int L = 200;
 
 	private Matrix p1 = new Matrix(new float[][]{{-L},{-L},{L}});
@@ -34,23 +40,36 @@ public class Trans3D extends JPanel{
 
 	Matrix[] ps = new Matrix[]{p1,p2,p3,p4,p5,p6,p7,p8};
 
+	private Matrix camPos = new Matrix(new float[][]{{0},{0},{-201}});
+
+
 	private Point origin = new Point(windowDim.width/2,windowDim.height/2);
 
 	public Trans3D(){
 		panel();
+
 		final int R = 10;
 		try{
 			boolean flip1 = false, flip2 = false, flip3 = true;
 			while(true){
-				projection = new Matrix(new float[][]{{1,0,0},{0,1,0}});
 				newCanvas();
 				ArrayList<Matrix> draws = new ArrayList<Matrix>();
 				ArrayList<Float> zS = new ArrayList<Float>();
 				for(Matrix p : ps){
-					p = xRotation.multi_by(p);
-					p = yRotation.multi_by(p);
-					p = zRotation.multi_by(p);
-					Matrix m = projection.multi_by(p);
+					p = xRotationCube.multi_by(p);
+					p = yRotationCube.multi_by(p);
+					p = zRotationCube.multi_by(p);
+					p = p.sub_by(camPos);
+					p = xRotationCam.multi_by(p);
+					p = yRotationCam.multi_by(p);
+					p = zRotationCam.multi_by(p);
+					float f = 0;
+					if(p.to_array()[2]>camPos.to_array()[2]){
+						f = 100/(p.to_array()[2]-camPos.to_array()[2]);
+					}
+
+
+					Matrix m = new Matrix(new float[][]{{f,0,0},{0,f,0}}).multi_by(p);
 					draws.add(m);
 					zS.add(p.to_array()[2]);
 					g.fillOval((int)m.to_array()[0]+origin.x,(int)m.to_array()[1]+origin.y,R,R);
@@ -140,9 +159,12 @@ public class Trans3D extends JPanel{
 	}
 
 	public void updateRotations(){
-		 xRotation = new Matrix(new float[][]{{1,0,0},{0,(float)Math.cos(theta),-(float)Math.sin(theta)},{0,(float)Math.sin(theta),(float)Math.cos(theta)}});
-		 yRotation = new Matrix(new float[][]{{(float)Math.cos(theta),0,(float)Math.sin(theta)},{0,1,0},{-(float)Math.sin(theta),0,(float)Math.cos(theta)}});
-		 zRotation = new Matrix(new float[][]{{(float)Math.cos(theta),-(float)Math.sin(theta),0},{(float)Math.sin(theta),(float)Math.cos(theta),0},{0,0,1}});
+		 xRotationCube = new Matrix(new float[][]{{1,0,0},{0,(float)Math.cos(theta),-(float)Math.sin(theta)},{0,(float)Math.sin(theta),(float)Math.cos(theta)}});
+		 yRotationCube = new Matrix(new float[][]{{(float)Math.cos(theta),0,(float)Math.sin(theta)},{0,1,0},{-(float)Math.sin(theta),0,(float)Math.cos(theta)}});
+		 zRotationCube = new Matrix(new float[][]{{(float)Math.cos(theta),-(float)Math.sin(theta),0},{(float)Math.sin(theta),(float)Math.cos(theta),0},{0,0,1}});
+		 xRotationCam = new Matrix(new float[][]{{1,0,0},{0,(float)Math.cos(rx),-(float)Math.sin(rx)},{0,(float)Math.sin(rx),(float)Math.cos(rx)}});
+		 yRotationCam = new Matrix(new float[][]{{(float)Math.cos(ry),0,(float)Math.sin(ry)},{0,1,0},{-(float)Math.sin(ry),0,(float)Math.cos(ry)}});
+		 zRotationCam = new Matrix(new float[][]{{(float)Math.cos(rz),-(float)Math.sin(rz),0},{(float)Math.sin(rz),(float)Math.cos(rz),0},{0,0,1}});
 	}
 
 	public void panel(){

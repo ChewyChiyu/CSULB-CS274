@@ -85,7 +85,7 @@ public class Fractal extends JPanel{
 		JSlider cX = new JSlider(JSlider.VERTICAL,MIN_B, MAX_B, 0);
 		cX.addChangeListener(e -> {
 			JSlider source = (JSlider)e.getSource();
-			cA = (double)source.getValue()/MIN_B;
+			cA = (double)source.getValue();
 			run();
 		});
 		cX.setPreferredSize(new Dimension(20,windowDim.height));

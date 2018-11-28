@@ -27,7 +27,7 @@ public class RomanNumeralPrint{
 				break;
 			case 2: //Insert a node into any position
 				System.out.println(" - Input Element of insertion - ");
-				char insert = validRomanChar("IVXLCDM");
+				char insert = validRomanChar();
 				System.out.println(" - Input Index of insertion - ");
 				list.add(insert,validNumQuery(0,list.size()));
 				System.out.println(" - Successful Addition - ");
@@ -62,22 +62,45 @@ public class RomanNumeralPrint{
 		Process linked list into Roman Numeral
 	*/
 	public void process(){
+
+
+
+
 		Stack input = new Stack();
 		for(int index = list.size()-1; index >= 0 ; index--){
 			input.push(""+list.getIndex(index));
 		}
 		String query = "";
+		String[] queryArr = new String[3];
 		for(int index = 0; index < list.size(); index++){
 			query+=input.pop();
 		}
 		System.out.println(query);
-		RomanNumeral rn = new RomanNumeral(query);
-		int n = rn.romanToArabic();
-		if(n!=-1){
-			System.out.println(" - List Roman Numeral " + n + " - ");
-		}else{
-			System.out.println(" - Invalid Roman Numeral - ");
+		
+		query = query.replace("+",",+,");
+		query = query.replace("-",",-,");
+		query = query.replace("*",",*,");
+		queryArr = query.split(",");
+		String[] realQueryArr = new String[3];
+		int index = 0;
+		for(String s : queryArr){
+			if(index>=realQueryArr.length){
+				System.out.println(" - Invalid Expression- ");
+				return;
+			}
+			if(!s.trim().equals("")){
+				realQueryArr[index++] = s;
+			}
 		}
+		queryArr = realQueryArr;
+			
+		if(queryArr.length>3){
+			System.out.println(" - Invalid Expression - ");
+			return;
+		}
+
+		new RomanNumCalc(queryArr);
+
 	}
 
 	/**
@@ -105,19 +128,14 @@ public class RomanNumeralPrint{
 		@param validChars: String contains valid roman nums
 		@return char: valid roman numeral char
 	*/
-	public char validRomanChar(String validChars){
+	public char validRomanChar(){
 		try{
 			Scanner scan = new Scanner(System.in);
 			char input = scan.next().charAt(0);
-			if(!validChars.contains(""+input)){
-				System.out.println(" - Invalid Input Range Error - ");
-				return validRomanChar(validChars);
-			}else{
-				return input;
-			}
+			return input;
 		}catch(Exception e){
 			System.out.println(" - Invalid Input - ");
-			return validRomanChar(validChars);
+			return validRomanChar();
 		}
 	}
 
